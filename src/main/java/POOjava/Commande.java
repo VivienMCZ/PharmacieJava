@@ -7,7 +7,7 @@ public class Commande {
     private List<ProduitCommande> produitsCommande;  // Liste pour stocker les produits et leurs quantités
     private String typeCommande;  // Type de commande (urgent, standard)
 
-    public Commande(String typeCommande) {
+    public Commande() {
         this.produitsCommande = new ArrayList<>();  // Initialisation de la liste vide
         this.typeCommande = typeCommande;  // Type de commande : "urgent" ou "standard"
     }
@@ -27,7 +27,7 @@ public class Commande {
             System.out.println("La commande est vide.");
         } else {
             for (ProduitCommande pc : produitsCommande) {
-                System.out.println(pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
+                System.out.println("Voici la commande : " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
             }
         }
     }

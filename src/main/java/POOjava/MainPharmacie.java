@@ -13,20 +13,17 @@ public class MainPharmacie {
         pharmacie.ajouterProduits(produit1);
         pharmacie.ajouterProduits(produit2);
 
-        // Création de commandes urgentes et standard
-        CommandeUrgente commandeUrgente = new CommandeUrgente();
-        CommandeStandard commandeStandard = new CommandeStandard();
+        pharmacie.afficherProduits();
+
+        Commande commande = new Commande();
 
         // Ajouter des produits aux commandes
-        commandeUrgente.ajouterProduitCommande(produit1, 10);  // Ajouter 10 Crèmes à la commande urgente
-        commandeStandard.ajouterProduitCommande(produit2, 5);  // Ajouter 5 Shampooings à la commande standard
+        commande.ajouterProduitCommande(produit1, 10);  // Ajouter 10 Crèmes à la commande urgente
+        commande.ajouterProduitCommande(produit2, 5);  // Ajouter 5 Shampooings à la commande standard
 
-         // Ajouter les commandes à la pharmacie
-        pharmacie.ajouterCommande(commandeUrgente);
-        pharmacie.ajouterCommande(commandeStandard);
+        commande.afficherCommande();
 
-        // Traiter les commandes en fonction de la priorité
-        pharmacie.traiterCommandes();  // Traite d'abord la commande urgente, puis la commande standard
+        commande.validerCommande(pharmacie);
 
         // Afficher les produits restants en stock après les commandes
         System.out.println("\nStock après les commandes:");

@@ -2,7 +2,7 @@ package POOjava;
 
 public class CommandeUrgente extends Commande {
     public CommandeUrgente() {
-        super("urgent");  // Définir le type de commande comme "urgent"
+        super();  // Définir le type de commande comme "urgent"
     }
 
     @Override
