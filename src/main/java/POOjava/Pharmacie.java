@@ -3,6 +3,7 @@ package POOjava;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Pharmacie implements Stocks {
@@ -56,6 +57,7 @@ public class Pharmacie implements Stocks {
         if (ruptureStock.isEmpty()) {
             System.out.println("Aucun produit proche de la rupture de stock.");
         } else {
+            ruptureStock.sort(Comparator.comparingInt(Produits::getQuantite));
             System.out.println("Ces produits sont proches de la rupture de stock :");
             for (Produits p : ruptureStock) {
                 System.out.println(p.getNom() + " - Quantité: " + p.getQuantite());
