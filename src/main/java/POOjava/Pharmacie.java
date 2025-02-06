@@ -41,4 +41,27 @@ public class Pharmacie implements Stocks {
             }
         }
     }
+
+    @Override
+    public void produitsRuptureDeStock() {
+    //liste temporaire renvoyant les produits proches de la rupture de stock (quantité inférieure ou égale à 5)
+        List<Produits> ruptureStock = new ArrayList<>();
+
+        for (Produits p : produits) {
+            if (p.getQuantite() <= 5) {
+                ruptureStock.add(p);
+            }
+        }
+
+        if (ruptureStock.isEmpty()) {
+            System.out.println("Aucun produit proche de la rupture de stock.");
+        } else {
+            System.out.println("Ces produits sont proches de la rupture de stock :");
+            for (Produits p : ruptureStock) {
+                System.out.println(p.getNom() + " - Quantité: " + p.getQuantite());
+            }
+        }
+    }
+
+
 }

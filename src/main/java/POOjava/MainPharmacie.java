@@ -8,14 +8,17 @@ public class MainPharmacie {
         // Création de produits
         Produits produit1 = new Produits("Crème", 10, 50, "Cosmetique");
         Produits produit2 = new Produits("Shampooing", 15, 30, "Hygiène");
+        Produits produit3 = new Produits("Gèle douche", 20, 4, "Hygiène");
+        Produits produit4 = new Produits("Doliprane", 10, 5, "Médicament");
 
         // Ajouter des produits au stock
         pharmacie.ajouterProduits(produit1);
         pharmacie.ajouterProduits(produit2);
-
+        pharmacie.ajouterProduits(produit3);
+        pharmacie.ajouterProduits(produit4);
         pharmacie.afficherProduits();
 
-        /// Commande commande = new Commande();
+        // Commande commande = new Commande();
         Commande commandeUrgente = new CommandeUrgente();
         Commande commandeStandard  = new CommandeStandard();
 
@@ -33,5 +36,6 @@ public class MainPharmacie {
         // Afficher les produits restants en stock après les commandes
         System.out.println("\nStock après les commandes:");
         pharmacie.afficherProduits();  // Appel sans argument
+        pharmacie.produitsRuptureDeStock();
     }
 }
