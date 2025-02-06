@@ -29,8 +29,9 @@ public class Commande {
         if (produitsCommande.isEmpty()) {
             System.out.println("La commande est vide.");
         } else {
+            System.out.println("Voici la commande " + getTypeCommande() + ":");
             for (ProduitCommande pc : produitsCommande) {
-                System.out.println("Voici la commande " + getTypeCommande() + ": " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
+                System.out.println(pc.getProduit().getNomProduit() + " - Quantité : " + pc.getQuantite());
             }
         }
     }
@@ -40,18 +41,15 @@ public class Commande {
             Produits produit = pc.getProduit();
             int quantiteDemandee = pc.getQuantite();
 
-            // Vérifier le stock
-            if (produit.getQuantite() < quantiteDemandee) {
-                System.out.println("Stock insuffisant pour le produit : " + produit.getNom());
+            if (produit.getQuantiteEnStock() < quantiteDemandee) {
+                System.out.println("Stock insuffisant pour le produit : " + produit.getNomProduit());
                 return false;
             }
 
-            // Décrémenter le stock
-            produit.setQuantite(produit.getQuantite() - quantiteDemandee);
+            produit.setQuantiteEnStock(produit.getQuantiteEnStock() - quantiteDemandee);
 
-            // Alerte de stock critique
-            if (produit.getQuantite() < 5) {
-                System.out.println("Alerte : Stock critique pour le produit : " + produit.getNom());
+            if (produit.getQuantiteEnStock() < 5) {
+                System.out.println("Alerte : Stock critique pour le produit : " + produit.getNomProduit());
             }
         }
 
@@ -67,7 +65,11 @@ public class Commande {
         return dateEtHeure;
     }
 
-    private class ProduitCommande {
+    public List<ProduitCommande> getProduitsCommande() {
+        return produitsCommande;
+    }
+
+    class ProduitCommande {
         private Produits produit;
         private int quantite;
 

@@ -1,69 +1,149 @@
 package POOjava;
 
-
-
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Pharmacie implements Stocks {
-    private List<Produits> produits; // Nom plus clair
+    private List<Produits> produits;
 
     public Pharmacie() {
         this.produits = new ArrayList<>();
     }
 
     @Override
-    public void ajouterProduits(Produits produit) {
-        if (produit.getPrix() > 0 && produit.getQuantite() > 0) {
-            this.produits.add(produit);
-        } else {
-            System.out.println("Erreur : Le prix et la quantité doivent être supérieurs à zéro.");
-        }
+    public void ajouterProduit(Produits produit) {
+        this.produits.add(produit);
     }
 
     @Override
-    public void enleverProduits(Produits produit) {
-        if (this.produits.remove(produit)) {
-            System.out.println(produit + " retiré du stock.");
-        } else {
-            System.out.println("Produit non trouvé dans le stock.");
-        }
+    public void enleverProduit(Produits produit) {
+        this.produits.remove(produit);
     }
 
     @Override
-    public void afficherProduits() {
+    public Produits rechercherProduitParNom(String nom) {
+        for (Produits produit : produits) {
+            if (produit.getNomProduit().equals(nom)) {
+                return produit;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Produits> rechercherProduitsParCategorie(String categorie) {
+        List<Produits> produitsParCategorie = new ArrayList<>();
+        for (Produits produit : produits) {
+            if (produit.getCategorieProduit().getType().equals(categorie)) {
+                produitsParCategorie.add(produit);
+            }
+        }
+        return produitsParCategorie;
+    }
+
+    @Override
+    public List<Produits> filtrerProduitsEnRuptureDeStock() {
+        List<Produits> produitsEnRuptureDeStock = new ArrayList<>();
+        for (Produits produit : produits) {
+            if (produit.getQuantiteEnStock() == 0) {
+                produitsEnRuptureDeStock.add(produit);
+            }
+        }
+        return produitsEnRuptureDeStock;
+    }
+
+    @Override
+    public void afficherTousLesProduits() {
         if (produits.isEmpty()) {
-            System.out.println("Aucun produit en stock.");
+            System.out.println("Aucun produit dans le stock.");
         } else {
-            System.out.println("Produits en stock :");
-            for (Produits p : produits) {
-                System.out.println(p.getNom() + " - Prix : " + p.getPrix() + " - Quantité : " + p.getQuantite());
+            System.out.println("Liste des produits :");
+            for (Produits produit : produits) {
+                System.out.println(produit);
             }
         }
     }
 
     @Override
-    public void produitsRuptureDeStock() {
-    //liste temporaire renvoyant les produits proches de la rupture de stock (quantité inférieure ou égale à 5)
-        List<Produits> ruptureStock = new ArrayList<>();
+    public void augmenterQuantiteStock(Produits produit, int quantite) {
+        produit.setQuantiteEnStock(produit.getQuantiteEnStock() + quantite);
+    }
 
-        for (Produits p : produits) {
-            if (p.getQuantite() <= 5) {
-                ruptureStock.add(p);
-            }
-        }
-
-        if (ruptureStock.isEmpty()) {
-            System.out.println("Aucun produit proche de la rupture de stock.");
+    @Override
+    public void diminuerQuantiteStock(Produits produit, int quantite) {
+        if (produit.getQuantiteEnStock() >= quantite) {
+            produit.setQuantiteEnStock(produit.getQuantiteEnStock() - quantite);
         } else {
-            ruptureStock.sort(Comparator.comparingInt(Produits::getQuantite));
-            System.out.println("Ces produits sont proches de la rupture de stock :");
-            for (Produits p : ruptureStock) {
-                System.out.println(p.getNom() + " - Quantité: " + p.getQuantite());
-            }
+            System.out.println("Quantité insuffisante en stock pour " + produit.getNomProduit());
         }
     }
 
+    public void enregistrerVente(Produits produit, int quantiteVendue) {
+        produit.ajouterVente(quantiteVendue);
+    }
 
+    public Produits getProduitLePlusVendu() {
+        Produits produitLePlusVendu = null;
+        int quantiteMaxVendue = 0;
+
+        for (Produits produit : produits) {
+            int quantiteVendue = produit.getVentes().values().stream().mapToInt(Integer::intValue).sum();
+            if (quantiteVendue > quantiteMaxVendue) {
+                quantiteMaxVendue = quantiteVendue;
+                produitLePlusVendu = produit;
+            }
+        }
+
+        return produitLePlusVendu;
+    }
+
+    public Map<String, Integer> getQuantitesVenduesParProduit() {
+        Map<String, Integer> quantitesVendues = new HashMap<>();
+
+        for (Produits produit : produits) {
+            int quantiteVendue = produit.getVentes().values().stream().mapToInt(Integer::intValue).sum();
+            quantitesVendues.put(produit.getNomProduit(), quantiteVendue);
+        }
+
+        return quantitesVendues;
+    }
+
+    public double calculerChiffreDaffairesTotal() {
+        double chiffreDaffairesTotal = 0;
+
+        for (Produits produit : produits) {
+            int quantiteVendue = produit.getVentes().values().stream().mapToInt(Integer::intValue).sum();
+            chiffreDaffairesTotal += produit.getPrixProduit() * quantiteVendue;
+        }
+
+        return chiffreDaffairesTotal;
+    }
+
+    public void exporterStatistiquesDeVentes(String nomFichier) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(nomFichier))) {
+            // Produit le plus vendu
+            Produits produitLePlusVendu = getProduitLePlusVendu();
+            writer.println("Produit le plus vendu : " + (produitLePlusVendu != null ? produitLePlusVendu.getNomProduit() : "Aucun"));
+
+            // Quantités vendues par produit
+            writer.println("\nQuantités vendues par produit :");
+            Map<String, Integer> quantitesVendues = getQuantitesVenduesParProduit();
+            for (Map.Entry<String, Integer> entry : quantitesVendues.entrySet()) {
+                writer.println(entry.getKey() + " : " + entry.getValue());
+            }
+
+            // Chiffre d'affaires total
+            double chiffreDaffairesTotal = calculerChiffreDaffairesTotal();
+            writer.println("\nChiffre d'affaires total : " + chiffreDaffairesTotal);
+
+            System.out.println("Statistiques de ventes exportées dans le fichier : " + nomFichier);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de l'exportation des statistiques de ventes : " + e.getMessage());
+        }
+    }
 }

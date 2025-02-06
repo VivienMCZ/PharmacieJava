@@ -1,6 +1,5 @@
 package POOjava;
 
-
 public class Categorie {
     private String type;
 
@@ -10,6 +9,10 @@ public class Categorie {
 
     public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
