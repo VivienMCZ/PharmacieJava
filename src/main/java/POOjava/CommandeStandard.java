@@ -1,8 +1,9 @@
 package POOjava;
 
 public class CommandeStandard extends Commande {
+
     public CommandeStandard() {
-        super();  // Définir le type de commande comme "standard"
+        super("Standard");
     }
 
     @Override

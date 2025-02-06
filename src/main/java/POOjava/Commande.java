@@ -1,5 +1,6 @@
 package POOjava;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,9 @@ public class Commande {
     private List<ProduitCommande> produitsCommande;  // Liste pour stocker les produits et leurs quantités
     private String typeCommande;  // Type de commande (urgent, standard)
 
-    public Commande() {
+    public Commande(String typeCommande) {
         this.produitsCommande = new ArrayList<>();  // Initialisation de la liste vide
-        this.typeCommande = typeCommande;  // Type de commande : "urgent" ou "standard"
+        this.typeCommande = typeCommande;
     }
 
     public void ajouterProduitCommande(Produits produit, int quantite) {
@@ -27,7 +28,7 @@ public class Commande {
             System.out.println("La commande est vide.");
         } else {
             for (ProduitCommande pc : produitsCommande) {
-                System.out.println("Voici la commande : " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
+                System.out.println("Voici la commande "+ getTypeCommande() + ": " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
             }
         }
     }
@@ -54,7 +55,6 @@ public class Commande {
         return true;
     }
 
-    // Getter pour typeCommande
     public String getTypeCommande() {
         return typeCommande;
     }

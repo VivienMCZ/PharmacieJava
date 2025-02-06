@@ -15,15 +15,20 @@ public class MainPharmacie {
 
         pharmacie.afficherProduits();
 
-        Commande commande = new Commande();
+        /// Commande commande = new Commande();
+        Commande commandeUrgente = new CommandeUrgente();
+        Commande commandeStandard  = new CommandeStandard();
+
 
         // Ajouter des produits aux commandes
-        commande.ajouterProduitCommande(produit1, 10);  // Ajouter 10 Crèmes à la commande urgente
-        commande.ajouterProduitCommande(produit2, 5);  // Ajouter 5 Shampooings à la commande standard
+        commandeUrgente.ajouterProduitCommande(produit1, 10);  // Ajouter 10 Crèmes à la commande urgente
+        commandeStandard.ajouterProduitCommande(produit2, 5);  // Ajouter 5 Shampooings à la commande standard
 
-        commande.afficherCommande();
+        commandeUrgente.afficherCommande();
+        commandeStandard.afficherCommande();
 
-        commande.validerCommande(pharmacie);
+        commandeStandard.validerCommande(pharmacie);
+        commandeUrgente.validerCommande(pharmacie);
 
         // Afficher les produits restants en stock après les commandes
         System.out.println("\nStock après les commandes:");
