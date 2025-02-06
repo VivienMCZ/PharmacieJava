@@ -1,15 +1,14 @@
 package POOjava;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Commande {
-    private List<ProduitCommande> produitsCommande;  // Liste pour stocker les produits et leurs quantités
-    private String typeCommande;  // Type de commande (urgent, standard)
+    private List<ProduitCommande> produitsCommande;
+    private String typeCommande;
 
     public Commande(String typeCommande) {
-        this.produitsCommande = new ArrayList<>();  // Initialisation de la liste vide
+        this.produitsCommande = new ArrayList<>();
         this.typeCommande = typeCommande;
     }
 
@@ -28,27 +27,29 @@ public class Commande {
             System.out.println("La commande est vide.");
         } else {
             for (ProduitCommande pc : produitsCommande) {
-                System.out.println("Voici la commande "+ getTypeCommande() + ": " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
+                System.out.println("Voici la commande " + getTypeCommande() + ": " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
             }
         }
     }
 
     public boolean validerCommande(Pharmacie pharmacie) {
-        // Valider le stock comme avant
         for (ProduitCommande pc : produitsCommande) {
             Produits produit = pc.getProduit();
             int quantiteDemandee = pc.getQuantite();
+
+            // Vérifier le stock
             if (produit.getQuantite() < quantiteDemandee) {
                 System.out.println("Stock insuffisant pour le produit : " + produit.getNom());
                 return false;
             }
-        }
 
-        // Mise à jour du stock
-        for (ProduitCommande pc : produitsCommande) {
-            Produits produit = pc.getProduit();
-            int quantiteDemandee = pc.getQuantite();
+            // Décrémenter le stock
             produit.setQuantite(produit.getQuantite() - quantiteDemandee);
+
+            // Alerte de stock critique
+            if (produit.getQuantite() < 5) {
+                System.out.println("Alerte : Stock critique pour le produit : " + produit.getNom());
+            }
         }
 
         System.out.println("Commande validée avec succès.");
