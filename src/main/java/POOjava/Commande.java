@@ -1,15 +1,18 @@
 package POOjava;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Commande {
     private List<ProduitCommande> produitsCommande;
     private String typeCommande;
+    private LocalDateTime dateEtHeure;
 
     public Commande(String typeCommande) {
         this.produitsCommande = new ArrayList<>();
         this.typeCommande = typeCommande;
+        this.dateEtHeure = LocalDateTime.now();
     }
 
     public void ajouterProduitCommande(Produits produit, int quantite) {
@@ -58,6 +61,10 @@ public class Commande {
 
     public String getTypeCommande() {
         return typeCommande;
+    }
+
+    public LocalDateTime getDateEtHeure() {
+        return dateEtHeure;
     }
 
     private class ProduitCommande {
