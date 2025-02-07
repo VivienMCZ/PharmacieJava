@@ -1,5 +1,5 @@
 package POOjava;
-
+import java.util.Scanner;
 public class MainPharmacie {
     public static void main(String[] args) {
         // Création de la pharmacie
@@ -13,13 +13,13 @@ public class MainPharmacie {
         Produits produit5 = new Produits("Smecta",15, 2, "Médicament");
 
         // Ajouter des produits au stock
-        pharmacie.ajouterProduits(produit1);
-        pharmacie.ajouterProduits(produit2);
-        pharmacie.ajouterProduits(produit3);
-        pharmacie.ajouterProduits(produit4);
-        pharmacie.ajouterProduits(produit5);
+        pharmacie.ajouterProduit(produit1);
+        pharmacie.ajouterProduit(produit2);
+        pharmacie.ajouterProduit(produit3);
+        pharmacie.ajouterProduit(produit4);
+        pharmacie.ajouterProduit(produit5);
 
-        pharmacie.afficherProduits();
+        pharmacie.afficherTousLesProduits();
 
         // Commande commande = new Commande();
         Commande commandeUrgente = new CommandeUrgente();
@@ -38,7 +38,12 @@ public class MainPharmacie {
 
         // Afficher les produits restants en stock après les commandes
         System.out.println("\nStock après les commandes:");
-        pharmacie.afficherProduits();  // Appel sans argument
+        pharmacie.afficherTousLesProduits();  // Appel sans argument
         pharmacie.produitsRuptureDeStock();
+
+        Scanner scanner = new Scanner(System.in);
+        pharmacie.supprimerProduits(produit1); // 
+        scanner.close();
     }
+
 }

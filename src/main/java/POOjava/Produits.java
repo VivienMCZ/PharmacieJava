@@ -19,6 +19,8 @@ public class Produits {
         this.ventes = new HashMap<>();
     }
 
+
+
     public String getNomProduit() {
         return nomProduit;
     }

@@ -1,4 +1,5 @@
 package POOjava;
+import java.util.Scanner;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,9 +21,27 @@ public class Pharmacie implements Stocks {
         this.produits.add(produit);
     }
 
-    @Override
-    public void enleverProduit(Produits produit) {
-        this.produits.remove(produit);
+    public void supprimerProduits(Produits produit) {
+        Scanner scanner = new Scanner(System.in); // Scanner créé ici
+
+        if (this.produits.remove(produit)) {
+            System.out.println("Êtes-vous sûr de vouloir supprimer le produit suivant ?");
+            System.out.println("Nom : " + produit.getNomProduit() + ", Prix : " + produit.getPrixProduit() + ", Quantité : " + produit.getQuantiteEnStock());
+            System.out.print("Tapez 'oui' pour confirmer : ");
+
+            String confirmation = scanner.nextLine();
+
+            if ("oui".equalsIgnoreCase(confirmation)) {
+                this.produits.remove(produit);
+                System.out.println(produit + " retiré du stock.");
+            } else {
+                System.out.println("Annulation de la suppression");
+            }
+        } else {
+            System.out.println("Produit non trouvé dans le stock.");
+        }
+
+        scanner.close(); // Fermer le scanner après utilisation
     }
 
     @Override
