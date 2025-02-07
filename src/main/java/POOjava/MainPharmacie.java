@@ -38,11 +38,10 @@ public class MainPharmacie {
 
         // Afficher les produits restants en stock après les commandes
         System.out.println("\nStock après les commandes:");
-        pharmacie.afficherTousLesProduits();  // Appel sans argument
-        pharmacie.produitsRuptureDeStock();
+        pharmacie.afficherTousLesProduits();
 
         Scanner scanner = new Scanner(System.in);
-        pharmacie.supprimerProduits(produit1); // 
+        pharmacie.supprimerProduits(produit1); //
         scanner.close();
     }
 
