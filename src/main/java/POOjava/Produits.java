@@ -1,40 +1,67 @@
 package POOjava;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Produits {
-    private String nom;
-    private int prix;
-    private int quantite;
-    private Categorie categorie;
+    private String nomProduit;
+    private double prixProduit;
+    private int quantiteEnStock;
+    private Categorie categorieProduit;
+    private Map<Date, Integer> ventes;
 
-    public Produits(String nom, int prix, int quantite, String typeCategorie) {
-        this.nom = nom;
-        this.prix = prix;
-        this.quantite = quantite;
-        this.categorie = new Categorie(typeCategorie);
+    public Produits(String nomProduit, double prixProduit, int quantiteEnStock, String typeCategorie) {
+        this.nomProduit = nomProduit;
+        this.prixProduit = prixProduit;
+        this.quantiteEnStock = quantiteEnStock;
+        this.categorieProduit = new Categorie(typeCategorie);
+        this.ventes = new HashMap<>();
     }
 
-    public String getNom() {
-        return nom;
+    public String getNomProduit() {
+        return nomProduit;
     }
 
-    public int getPrix() {
-        return prix;
+    public void setNomProduit(String nomProduit) {
+        this.nomProduit = nomProduit;
     }
 
-    public int getQuantite() {
-        return quantite;
+    public double getPrixProduit() {
+        return prixProduit;
     }
 
-    public void setQuantite(int quantite) {  // Ajout de la méthode setQuantite
-        this.quantite = quantite;
+    public void setPrixProduit(double prixProduit) {
+        this.prixProduit = prixProduit;
     }
 
-    public Categorie getCategorie() {
-        return categorie;
+    public int getQuantiteEnStock() {
+        return quantiteEnStock;
+    }
+
+    public void setQuantiteEnStock(int quantiteEnStock) {
+        this.quantiteEnStock = quantiteEnStock;
+    }
+
+    public Categorie getCategorieProduit() {
+        return categorieProduit;
+    }
+
+    public void setCategorieProduit(Categorie categorieProduit) {
+        this.categorieProduit = categorieProduit;
+    }
+
+    public void ajouterVente(int quantiteVendue) {
+        Date dateActuelle = new Date();
+        ventes.put(dateActuelle, ventes.getOrDefault(dateActuelle, 0) + quantiteVendue);
+    }
+
+    public Map<Date, Integer> getVentes() {
+        return ventes;
     }
 
     @Override
     public String toString() {
-        return "Produit: " + nom + ", Prix: " + prix + ", Quantité: " + quantite;
+        return "Produit : " + nomProduit + ", Prix : " + prixProduit + ", Quantité : " + quantiteEnStock;
     }
 }

@@ -1,16 +1,18 @@
 package POOjava;
 
-import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Commande {
-    private List<ProduitCommande> produitsCommande;  // Liste pour stocker les produits et leurs quantités
-    private String typeCommande;  // Type de commande (urgent, standard)
+    private List<ProduitCommande> produitsCommande;
+    private String typeCommande;
+    private LocalDateTime dateEtHeure;
 
     public Commande(String typeCommande) {
-        this.produitsCommande = new ArrayList<>();  // Initialisation de la liste vide
+        this.produitsCommande = new ArrayList<>();
         this.typeCommande = typeCommande;
+        this.dateEtHeure = LocalDateTime.now();
     }
 
     public void ajouterProduitCommande(Produits produit, int quantite) {
@@ -27,28 +29,28 @@ public class Commande {
         if (produitsCommande.isEmpty()) {
             System.out.println("La commande est vide.");
         } else {
+            System.out.println("Voici la commande " + getTypeCommande() + ":");
             for (ProduitCommande pc : produitsCommande) {
-                System.out.println("Voici la commande "+ getTypeCommande() + ": " + pc.getProduit().getNom() + " - Quantité : " + pc.getQuantite());
+                System.out.println(pc.getProduit().getNomProduit() + " - Quantité : " + pc.getQuantite());
             }
         }
     }
 
     public boolean validerCommande(Pharmacie pharmacie) {
-        // Valider le stock comme avant
         for (ProduitCommande pc : produitsCommande) {
             Produits produit = pc.getProduit();
             int quantiteDemandee = pc.getQuantite();
-            if (produit.getQuantite() < quantiteDemandee) {
-                System.out.println("Stock insuffisant pour le produit : " + produit.getNom());
+
+            if (produit.getQuantiteEnStock() < quantiteDemandee) {
+                System.out.println("Stock insuffisant pour le produit : " + produit.getNomProduit());
                 return false;
             }
-        }
 
-        // Mise à jour du stock
-        for (ProduitCommande pc : produitsCommande) {
-            Produits produit = pc.getProduit();
-            int quantiteDemandee = pc.getQuantite();
-            produit.setQuantite(produit.getQuantite() - quantiteDemandee);
+            produit.setQuantiteEnStock(produit.getQuantiteEnStock() - quantiteDemandee);
+
+            if (produit.getQuantiteEnStock() < 5) {
+                System.out.println("Alerte : Stock critique pour le produit : " + produit.getNomProduit());
+            }
         }
 
         System.out.println("Commande validée avec succès.");
@@ -59,7 +61,15 @@ public class Commande {
         return typeCommande;
     }
 
-    private class ProduitCommande {
+    public LocalDateTime getDateEtHeure() {
+        return dateEtHeure;
+    }
+
+    public List<ProduitCommande> getProduitsCommande() {
+        return produitsCommande;
+    }
+
+    class ProduitCommande {
         private Produits produit;
         private int quantite;
 

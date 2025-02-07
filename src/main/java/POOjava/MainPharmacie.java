@@ -40,28 +40,5 @@ public class MainPharmacie {
         System.out.println("\nStock après les commandes:");
         pharmacie.afficherProduits();  // Appel sans argument
         pharmacie.produitsRuptureDeStock();
-
-
-        GestionUtilisateurs gestion = getUtilisateurs();
-
-        // Affichage après suppression
-        gestion.afficherUtilisateurs();
-    }
-
-    private static GestionUtilisateurs getUtilisateurs() {
-        Pharmacien admin = new Pharmacien("Viktor", Utilisateurs.Role.Admin);
-        Pharmacien admin2 = new Pharmacien("Karim", Utilisateurs.Role.Admin);
-        Pharmacien employe1 = new Pharmacien("Jayce", Utilisateurs.Role.Employe);
-        Pharmacien employe2 = new Pharmacien("Alex", Utilisateurs.Role.Employe);
-
-        GestionUtilisateurs gestion = new GestionUtilisateurs();
-
-        gestion.ajouterUtilisateur(admin, employe1);
-        gestion.ajouterUtilisateur(admin, employe2);
-        gestion.ajouterUtilisateur(admin, new Pharmacien("David", Utilisateurs.Role.Employe));
-        
-        gestion.supprimerUtilisateur(admin2, "Karim");
-        return gestion;
     }
 }
-

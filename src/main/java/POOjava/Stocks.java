@@ -1,10 +1,14 @@
 package POOjava;
 
-
+import java.util.List;
 
 public interface Stocks {
-    void ajouterProduits(Produits produit);
-    void enleverProduits(Produits produit);
-    void afficherProduits();
-    void produitsRuptureDeStock();
+    void ajouterProduit(Produits produit);
+    void enleverProduit(Produits produit);
+    Produits rechercherProduitParNom(String nom);
+    List<Produits> rechercherProduitsParCategorie(String categorie);
+    List<Produits> filtrerProduitsEnRuptureDeStock();
+    void afficherTousLesProduits();
+    void augmenterQuantiteStock(Produits produit, int quantite);
+    void diminuerQuantiteStock(Produits produit, int quantite);
 }
